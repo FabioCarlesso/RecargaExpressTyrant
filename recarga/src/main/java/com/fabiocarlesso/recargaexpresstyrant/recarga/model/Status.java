@@ -1,7 +1,7 @@
 package com.fabiocarlesso.recargaexpresstyrant.recarga.model;
 
 public enum Status {
-    REALIZADO,
+    SOLICITADO,
     CANCELADO,
     PAGO,
     NAO_AUTORIZADO,
