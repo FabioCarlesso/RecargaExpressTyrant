@@ -21,6 +21,10 @@ public class RecargaService {
         recarga.setDataHoraSolicitacao(LocalDateTime.now());
         recarga.setStatus(Status.SOLICITADO);
         Recarga salvo = recargaRepository.save(recarga);
+        //Aplicar chain of responsability
+        //1. Validar recargas
+        //2. Realizar pagamentos
+        //3. Realizar recarga
         //ENVIAR SQS PARA PAGAMENTO
         //ENVIAR SNS PARA AVISAR O CLIENTE
         return modelMapper.map(salvo, RecargaDto.class);

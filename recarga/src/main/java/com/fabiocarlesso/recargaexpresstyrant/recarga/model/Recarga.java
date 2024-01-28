@@ -1,10 +1,7 @@
 package com.fabiocarlesso.recargaexpresstyrant.recarga.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,14 +20,18 @@ public class Recarga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull @NotEmpty @Size(max=100)
-    private String numeroCelular;
+    @Positive @NotNull
+    @DecimalMin(value = "1000", message = "O valor deve ser igual ou maior que 1000")
+    @DecimalMax(value = "1000000000000000000", message = "O valor deve ser igual ou menor que 1000000000000000000")
+    private Long numeroCelular;
     @Positive
     private BigDecimal valorRecarga;
-    private String metodoPagamento;
-    @NotNull @Size(max=100)
+    @NotNull @Enumerated(EnumType.STRING)
+    private MetodoPagamento metodoPagamento;
+    @NotEmpty @Size(min=3,max=100)
     private String usuario;
-    private String operadora;
+    @NotNull @Enumerated(EnumType.STRING)
+    private Operadora operadora;
     @NotNull
     private LocalDateTime dataHoraSolicitacao;
     @NotNull @Enumerated(EnumType.STRING)
