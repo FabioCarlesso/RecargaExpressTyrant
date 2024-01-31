@@ -29,4 +29,11 @@ public class RecargaController {
         RecargaDto dto = service.obterPorId(id);
         return ResponseEntity.ok(dto);
     }
+
+    @PutMapping("/{id}/pago")
+    @Transactional
+    public ResponseEntity<RecargaDto> aprovaPagamento(@PathVariable @NotNull Long id) {
+        RecargaDto dto = service.aprovaPagamentoRecarga(id);
+        return ResponseEntity.ok(dto);
+    }
 }

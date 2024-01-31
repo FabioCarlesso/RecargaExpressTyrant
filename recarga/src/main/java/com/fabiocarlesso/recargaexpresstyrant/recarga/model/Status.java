@@ -7,7 +7,5 @@ public enum Status {
     NAO_AUTORIZADO,
     PAGO,
     NAO_REALIZADO,
-    REALIZADO,
-    CANCELADO,
-    CONFIRMADO
+    REALIZADO
 }
