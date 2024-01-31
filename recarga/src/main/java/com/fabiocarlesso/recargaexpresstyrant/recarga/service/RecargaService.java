@@ -42,6 +42,7 @@ public class RecargaService {
     //2. Status pagamentos (EM_PAGAMENTO, NAO_AUTORIZADO, PAGO)
     public RecargaDto aprovaPagamentoRecarga(Long id) {
         Recarga recarga = recargaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        recarga.setStatus(Status.PAGO);
         Recarga salvo = recargaRepository.save(recarga);
         return modelMapper.map(salvo, RecargaDto.class);
     }
