@@ -34,6 +34,7 @@ public class Recarga {
     private Operadora operadora;
     @NotNull
     private LocalDateTime dataHoraSolicitacao;
+    private LocalDateTime dataHoraPagamento;
     @NotNull @Enumerated(EnumType.STRING)
     private Status status;
 }
