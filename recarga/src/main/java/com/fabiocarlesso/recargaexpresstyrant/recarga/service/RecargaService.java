@@ -7,6 +7,7 @@ import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.recargavalidador.Recar
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.recargavalidador.RecargaValidarResponse;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.solicitar.SolicitarRecargaRequestDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.solicitar.SolicitarRecargaResponseDto;
+import com.fabiocarlesso.recargaexpresstyrant.recarga.exception.StatusNotFoundExeception;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.integrador.RecargaValidadorIntegration;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Recarga;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Status;
@@ -49,8 +50,9 @@ public class RecargaService {
     @Transactional
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     public PagamentoRecargaResponseDto aprovaPagamentoRecarga(Long id) {
-        //Só pode pagar algo que foi solicitado
         Recarga recarga = recargaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        if(!recarga.getStatus().equals(Status.SOLICITADO))
+            throw new StatusNotFoundExeception("Solicitação não encontrada!");
         recarga.setDataHoraPagamento(LocalDateTime.now());
         recarga.setStatus(Status.PAGO);
         Recarga salvo = recargaRepository.save(recarga);
@@ -62,7 +64,8 @@ public class RecargaService {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     public RealizaRecargaResponseDto realizaRecarga(Long id) {
         Recarga recarga = recargaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        //Só pode realizar algo que foi pago
+        if(!recarga.getStatus().equals(Status.PAGO))
+            throw new StatusNotFoundExeception("Verificar solicitação de recarga!");
         //Validar endpoint Operadora
         recarga.setDataHoraRealizado(LocalDateTime.now());
         recarga.setStatus(Status.REALIZADO);
