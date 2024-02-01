@@ -3,6 +3,8 @@ package com.fabiocarlesso.recargaexpresstyrant.recarga.service;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.RecargaDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.recargavalidador.RecargaValidarRequest;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.recargavalidador.RecargaValidarResponse;
+import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.solicitar.SolicitarRecargaRequestDto;
+import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.solicitar.SolicitarRecargaResponseDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.integrador.RecargaValidadorIntegration;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Recarga;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Status;
@@ -25,7 +27,7 @@ public class RecargaService {
     private final RecargaRepository recargaRepository;
     private final ModelMapper modelMapper;
     private final RecargaValidadorIntegration recargaValidadorIntegration;
-    public RecargaDto solicitarRecarga(RecargaDto dto){
+    public SolicitarRecargaResponseDto solicitarRecarga(SolicitarRecargaRequestDto dto){
         Recarga recarga = modelMapper.map(dto, Recarga.class);
         recarga.setDataHoraSolicitacao(LocalDateTime.now());
         recarga.setStatus(Status.SOLICITADO);
@@ -34,7 +36,7 @@ public class RecargaService {
         RecargaValidarResponse validarResponse = recargaValidadorIntegration.postValidarRecarga(
                 new RecargaValidarRequest(recarga.getNumeroCelular()));
         log.info("Valido? {}", validarResponse);
-        return modelMapper.map(salvo, RecargaDto.class);
+        return modelMapper.map(salvo, SolicitarRecargaResponseDto.class);
     }
 
     public RecargaDto obterPorId(Long id) {

@@ -1,6 +1,8 @@
 package com.fabiocarlesso.recargaexpresstyrant.recarga.controller;
 
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.RecargaDto;
+import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.solicitar.SolicitarRecargaRequestDto;
+import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.solicitar.SolicitarRecargaResponseDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.service.RecargaService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -19,8 +21,8 @@ public class RecargaController {
     private final RecargaService service;
     @PostMapping
     @Transactional
-    public ResponseEntity<RecargaDto> solicitaRecarga(@RequestBody @Valid RecargaDto dto, UriComponentsBuilder uriBuilder) {
-        RecargaDto recargaSolicitada = service.solicitarRecarga(dto);
+    public ResponseEntity<SolicitarRecargaResponseDto> solicitaRecarga(@RequestBody @Valid SolicitarRecargaRequestDto dto, UriComponentsBuilder uriBuilder) {
+        SolicitarRecargaResponseDto recargaSolicitada = service.solicitarRecarga(dto);
         URI endereco = uriBuilder.path("/api/recargas/{id}").buildAndExpand(recargaSolicitada.getId()).toUri();
         return ResponseEntity.created(endereco).body(recargaSolicitada);
     }
