@@ -45,10 +45,20 @@ public class RecargaService {
     @Transactional
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     public void aprovaPagamentoRecarga(Long id) {
+        //Só pode pagar algo que foi solicitado
         Recarga recarga = recargaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         recargaRepository.atualizaRecargaStatus(recarga.getId(), Status.PAGO);
     }
 
-
     //3. Realizar recarga (NAO_REALIZADO, REALIZADO
+    @Transactional
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    public RecargaDto realizaRecarga(Long id) {
+        Recarga recarga = recargaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        //Só pode realizar algo que foi pago
+        //Validar endpoint Operadora
+        recargaRepository.atualizaRecargaStatus(recarga.getId(), Status.REALIZADO);
+        Recarga atualizado = recargaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return modelMapper.map(atualizado, RecargaDto.class);
+    }
 }

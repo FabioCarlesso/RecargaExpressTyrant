@@ -36,4 +36,11 @@ public class RecargaController {
         service.aprovaPagamentoRecarga(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/realizar")
+    @Transactional
+    public ResponseEntity<RecargaDto> realizarRecarga(@PathVariable @NotNull Long id) {
+        RecargaDto dto = service.realizaRecarga(id);
+        return ResponseEntity.ok(dto);
+    }
 }
