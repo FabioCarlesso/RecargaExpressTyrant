@@ -8,10 +8,13 @@ import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Recarga;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Status;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.repository.RecargaRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -39,12 +42,11 @@ public class RecargaService {
         return modelMapper.map(recarga, RecargaDto.class);
     }
 
-    //2. Status pagamentos (EM_PAGAMENTO, NAO_AUTORIZADO, PAGO)
-    public RecargaDto aprovaPagamentoRecarga(Long id) {
+    @Transactional
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    public void aprovaPagamentoRecarga(Long id) {
         Recarga recarga = recargaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        recarga.setStatus(Status.PAGO);
-        Recarga salvo = recargaRepository.save(recarga);
-        return modelMapper.map(salvo, RecargaDto.class);
+        recargaRepository.atualizaRecargaStatus(recarga.getId(), Status.PAGO);
     }
 
 

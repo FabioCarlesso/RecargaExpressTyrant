@@ -32,8 +32,8 @@ public class RecargaController {
 
     @PutMapping("/{id}/pago")
     @Transactional
-    public ResponseEntity<RecargaDto> aprovaPagamento(@PathVariable @NotNull Long id) {
-        RecargaDto dto = service.aprovaPagamentoRecarga(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<Void> aprovaPagamento(@PathVariable @NotNull Long id) {
+        service.aprovaPagamentoRecarga(id);
+        return ResponseEntity.ok().build();
     }
 }
