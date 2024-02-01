@@ -3,6 +3,7 @@ package com.fabiocarlesso.recargaexpresstyrant.recarga.dto.pagamento;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.MetodoPagamento;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Operadora;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Status;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PagamentoRecargaResponseDto {
     private Long id;
     private Long numeroCelular;

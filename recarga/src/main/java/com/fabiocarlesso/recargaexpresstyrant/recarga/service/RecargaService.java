@@ -2,6 +2,7 @@ package com.fabiocarlesso.recargaexpresstyrant.recarga.service;
 
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.RecargaDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.pagamento.PagamentoRecargaResponseDto;
+import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.realizar.RealizaRecargaResponseDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.recargavalidador.RecargaValidarRequest;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.recargavalidador.RecargaValidarResponse;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.solicitar.SolicitarRecargaRequestDto;
@@ -59,12 +60,13 @@ public class RecargaService {
     //3. Realizar recarga (NAO_REALIZADO, REALIZADO
     @Transactional
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    public RecargaDto realizaRecarga(Long id) {
+    public RealizaRecargaResponseDto realizaRecarga(Long id) {
         Recarga recarga = recargaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         //Só pode realizar algo que foi pago
         //Validar endpoint Operadora
-        recargaRepository.atualizaRecargaStatus(recarga.getId(), Status.REALIZADO);
-        Recarga atualizado = recargaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        return modelMapper.map(atualizado, RecargaDto.class);
+        recarga.setDataHoraRealizado(LocalDateTime.now());
+        recarga.setStatus(Status.REALIZADO);
+        Recarga salvo = recargaRepository.save(recarga);
+        return modelMapper.map(salvo, RealizaRecargaResponseDto.class);
     }
 }

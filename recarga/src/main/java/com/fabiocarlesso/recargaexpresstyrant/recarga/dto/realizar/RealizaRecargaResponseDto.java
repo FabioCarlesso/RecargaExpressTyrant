@@ -1,11 +1,13 @@
-package com.fabiocarlesso.recargaexpresstyrant.recarga.dto;
+package com.fabiocarlesso.recargaexpresstyrant.recarga.dto.realizar;
 
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.MetodoPagamento;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Operadora;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.model.Status;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,22 +17,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RecargaDto {
+public class RealizaRecargaResponseDto {
     private Long id;
-    @Positive @NotNull
     private Long numeroCelular;
-    @Positive
     private BigDecimal valorRecarga;
-    @NotNull
     private MetodoPagamento metodoPagamento;
-    @NotEmpty
     private String usuario;
-    @NotNull
     private Operadora operadora;
-    @NotNull
     private LocalDateTime dataHoraSolicitacao;
     private LocalDateTime dataHoraPagamento;
     private LocalDateTime dataHoraRealizado;
-    @NotNull
     private Status status;
 }

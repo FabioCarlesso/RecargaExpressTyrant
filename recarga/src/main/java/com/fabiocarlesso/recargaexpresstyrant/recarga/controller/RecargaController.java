@@ -2,6 +2,7 @@ package com.fabiocarlesso.recargaexpresstyrant.recarga.controller;
 
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.RecargaDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.pagamento.PagamentoRecargaResponseDto;
+import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.realizar.RealizaRecargaResponseDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.solicitar.SolicitarRecargaRequestDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.dto.solicitar.SolicitarRecargaResponseDto;
 import com.fabiocarlesso.recargaexpresstyrant.recarga.service.RecargaService;
@@ -42,8 +43,8 @@ public class RecargaController {
 
     @PutMapping("/{id}/realizar")
     @Transactional
-    public ResponseEntity<RecargaDto> realizarRecarga(@PathVariable @NotNull Long id) {
-        RecargaDto dto = service.realizaRecarga(id);
+    public ResponseEntity<RealizaRecargaResponseDto> realizarRecarga(@PathVariable @NotNull Long id) {
+        RealizaRecargaResponseDto dto = service.realizaRecarga(id);
         return ResponseEntity.ok(dto);
     }
 }

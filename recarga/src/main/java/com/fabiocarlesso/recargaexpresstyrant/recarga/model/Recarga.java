@@ -21,8 +21,6 @@ public class Recarga {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Positive @NotNull
-    @DecimalMin(value = "1000", message = "O valor deve ser igual ou maior que 1000")
-    @DecimalMax(value = "1000000000000000000", message = "O valor deve ser igual ou menor que 1000000000000000000")
     private Long numeroCelular;
     @Positive
     private BigDecimal valorRecarga;
@@ -35,6 +33,7 @@ public class Recarga {
     @NotNull
     private LocalDateTime dataHoraSolicitacao;
     private LocalDateTime dataHoraPagamento;
+    private LocalDateTime dataHoraRealizado;
     @NotNull @Enumerated(EnumType.STRING)
     private Status status;
 }
